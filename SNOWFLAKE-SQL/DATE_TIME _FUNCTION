@@ -1,0 +1,122 @@
+CREATE WAREHOUSE test_warehouse WITH WAREHOUSE_SIZE = 'MEDIUM'
+WAREHOUSE_TYPE = 'STANDARD' AUTO_SUSPEND = 600
+AUTO_RESUME = TRUE
+COMMENT = 'testing warehouse';
+
+SHOW warehouses;
+
+CREATE DATABASE DEMO_DATABASE;
+
+USE DATABASE DEMO_DATABASE;
+USE WAREHOUSE test_warehouse;
+CREATE schema PUBLIC;
+drop database DEMO_DATABASE;
+
+undrop database DEMO_DATABASE;
+
+use  database DEMO_DATABASE;
+--get current DATE
+SELECT CURRENT_DATE;   ------today's date
+
+--get current time---WILL SHOW WITH DATE
+SELECT CURRENT_TIMESTAMP;------its using the timezone of the place where our server is connected-----------
+
+select current_time;-------------WILL SHOW ONLY TIME    NO DATE------------
+
+--CONVERT TIMEZONE
+SELECT CONVERT_TIMEZONE('UTC',CURRENT_TIMESTAMP) AS UTC_TIMEZONE;
+SELECT CONVERT_TIMEZONE('IST',CURRENT_TIMESTAMP) AS IST_TIMEZONE;------IST TIMEZONE not supported-------
+SELECT CONVERT_TIMEZONE('GMT',CURRENT_TIMESTAMP) AS GMT_TIMEZONE;
+
+select convert_timezone('Europe/Warsaw', 'UTC', '2019-01-01 00:00:00' ::timestamp_ntz) as conv;
+SELECT CONVERT_TIMEZONE('America/Los_Angeles',CURRENT_TIMESTAMP) AS AMERICA_TIMEZONE;
+
+---date function will only work if the datatype of date column is date and not string and varchar------
+------interview question-----
+----how date_trunc works?------
+---if i extract year it will show the same year,the month will be the first month and date will become first day of the month---------
+SELECT DATE_TRUNC('YEAR',CURRENT_DATE) AS YR_FROM_DATe;
+--get year from date----
+SELECT DATE_TRUNC('YEAR',TO_DATE('2022-11-27')) AS YR_FROM_DATE;
+SELECT DATE_TRUNC('YEAR',DATE('2013-50-17')) AS YR_FROM_DATE;
+SELECT TO_DATE('2013-05-17');
+
+----get month from date----
+select DATE_TRUNC('MONTH',CURRENT_DATE) as MTH_FROM_DATE;---the year will be current year month it will show the current month but date
+------------wil be the first day of that particular month that we have asked for in code---------
+
+------get day from date-------------
+select DATE_TRUNC('DAY',CURRENT_DATE) AS DAY_FROM_DATE;
+
+------GET WEEK FROM DATE----------
+SELECT DATE_TRUNC('WEEK',CURRENT_DATE) AS WEEK_FROM_DATE;
+
+--get month from date 
+SELECT DATE_TRUNC('MONTH',CURRENT_DATE) AS MTH_FROM_DATE;-----------CURRENT_DATE IS THE COLUMN NAME-----------
+
+--get day from date
+SELECT DATE_TRUNC('DAY',CURRENT_DATE) AS DAY_FROM_DATE;
+
+SELECT DATE_TRUNC('WEEK',date('2022-11-17')) AS WEEK_DATE_FROM_DATE;
+SELECT DATE_TRUNC('WEEK',date('2013-05-17')) AS WEEK_DATE_FROM_DATE;
+SELECT DATE_TRUNC('WEEK',CURRENT_DATE) AS WEEK_FROM_DATE;
+
+SELECT CURRENT_TIMESTAMP();
+SELECT DAY(CURRENT_TIMESTAMP()),
+       HOUR(CURRENT_TIMESTAMP()),
+       SECOND(CURRENT_TIMESTAMP()),
+       MINUTE(CURRENT_TIMESTAMP()),
+       MONTH(CURRENT_TIMESTAMP());
+              
+SELECT WEEK(CURRENT_DATE) AS WEEK_FROM_START_OF_THE_YEAR;
+SELECT WEEK(DATE('2022-11-17')) AS WEEK_FROM_START_OF_THE_YEAR;
+              
+SELECT MONTH(date('2022-11-27')) AS month_OF_THE_YEAR;
+              
+              
+              
+              
+
+
+--get last dat of previous month
+SELECT LAST_DAY(date('2022-11-27')-INTERVAL '3 MONTH') AS LAST_DAY_PREV_MNTH;  
+SELECT LAST_DAY(date('2022-11-27')-INTERVAL '0.5 MONTH') AS LAST_DAY_PREV_MNTH;
+              
+--go back 5 days from current date
+SELECT date(date('2022-11-27')-INTERVAL '5 DAYS') AS FIVE_DAYS_BACK_DATA;  
+              
+SELECT date(date('2022-11-27')-INTERVAL '3 WEEKS') AS THREE_WEEKS_BACK_DATA; 
+              
+SELECT QUARTER(CURRENT_DATE) AS QTR;
+SELECT QUARTER(date('2022-05-18')) AS QTR_GIVEN_DATE;              
+              
+SELECT EXTRACT(YEAR FROM CURRENT_DATE) AS YR;  
+              
+SELECT EXTRACT(MONTH FROM CURRENT_DATE) AS MTH;
+              
+SELECT TO_CHAR(TO_DATE('1993-08-17'),'DD-MM-YYYY') AS DATE_DD_MM_YYYY;   --THIS WILL BE HIGHLY USED  
+              
+SELECT TO_CHAR(TO_DATE('1993-08-17'),'DD-MM-YYYY') AS MM_YYYY;  
+              
+SELECT TO_CHAR(TO_DATE('1993-08-17'),'MON-YYYY') AS MON_YYYY; 
+              
+SELECT TO_CHAR(TO_DATE('1993-08-17'),'MON-YY') AS MON_YY;  
+              
+SELECT TO_CHAR(TO_DATE('1993-08-17'),'DY-MM-YYYY') AS DATE_MON_YYYY;   
+              
+SELECT datediff('MONTH','2022-06-01','2022-08-21');              
+SELECT datediff('MONTH','2022-08-21','2022-06-01');                              
+              
+SELECT datediff('YEAR','2014-06-01','2019-03-23');              
+SELECT datediff('DAY','2014-06-01','2019-03-23');
+SELECT DATEDIFF('WEEK','2014-06-01','2019-03-23');
+SELECT DATEDIFF('MONTH',CURRENT_DATE,'2022-01-01'); -----CURRENT_DATE IS A COLUMN SO IN ANY OTHER DATA WE USE THIS CODE REPLACE IT
+--WITH THE COLUMN NAME REQUIRED------
+
+SELECT DATEDIFF('QTR',CURRENT_DATE,'2022-01-01');
+SELECT DATEDIFF('DAY', CURRENT_DATE,'2022-01-01');
+SELECT DATEDIFF('WEEK',CURRENT_DATE,'2022-01-01');
+SELECT DATEDIFF('HOURS',CURRENT_DATE,'2022-01-01');
+SELECT DATEDIFF('MINUTES',CURRENT_DATE,'2022-01-01');
+                
+              
